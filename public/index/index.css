@@ -1,0 +1,139 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.booklist {
+  width: 100%;
+}
+
+.booklist__title {
+  text-align: center;
+  font-size: 3rem;
+  letter-spacing: 3px;
+  margin: 3rem 0rem;
+}
+
+.bookset {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.book {
+  margin: 2rem 2rem;
+  width: 20%;
+  background-color: #f5f3f4;
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  box-shadow: 0px 0px 12px -3px rgba(0, 0, 0, 0.77);
+  -webkit-box-shadow: 0px 0px 12px -3px rgba(0, 0, 0, 0.77);
+  -moz-box-shadow: 0px 0px 12px -3px rgba(0, 0, 0, 0.77);
+}
+
+.book__title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.book__img {
+  padding: 1rem;
+}
+
+.book__img img {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0 auto;
+  text-align: center;
+  width: 80%;
+}
+
+.book__details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.book__details span {
+  font-weight: 500;
+}
+
+.book__price p {
+  font-size: 1.5rem;
+}
+
+.book__author p {
+  font-size: 1.5rem;
+  margin: 0.5rem 0rem;
+}
+
+.book__btn {
+  border-radius: 5px;
+  background-color: #2b2d42;
+  color: white;
+  outline: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.book__btn:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+/*# sourceMappingURL=index.css.map */

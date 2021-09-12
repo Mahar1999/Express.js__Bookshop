@@ -1,0 +1,70 @@
+.nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  background-color: #2b2d42;
+}
+
+.nav__left {
+  width: 40%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.nav__right {
+  width: 40%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  padding: 0.5rem 1rem;
+}
+
+.nav a:hover {
+  background-color: white;
+  color: #2b2d42;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.logo {
+  width: 20%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.logo img {
+  height: 7rem;
+  width: 7rem;
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.5rem;
+  margin: 0.5rem;
+}
+
+.active {
+  border-bottom: 3px solid white;
+}
+/*# sourceMappingURL=nav.css.map */

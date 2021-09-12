@@ -1,0 +1,115 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.addbook {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.addbook__title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 3rem auto;
+  letter-spacing: 1px;
+  background-color: #2b2d42;
+  color: white;
+  width: 30%;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+}
+
+.addbook__form {
+  background-color: #2b2d42;
+  color: white;
+  width: 60%;
+  margin: 0 auto;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 3rem 0;
+}
+
+.addbook__entities {
+  margin: 1rem;
+  text-align: center;
+  width: 80%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.addbook__entities label {
+  font-size: 1.5rem;
+}
+
+.addbook__entities input {
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  border: none;
+  width: 50%;
+}
+
+.addbook__btn {
+  margin: 3rem auto;
+  background-color: white;
+  color: #2b2d42;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.addbook__btn:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.72);
+  -webkit-box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.72);
+  -moz-box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.72);
+}
+/*# sourceMappingURL=addBooks.css.map */

@@ -1,0 +1,33 @@
+<%- include('includes/head.ejs') %>
+  <link rel="stylesheet" href="/addBooks/addBooks.css" />
+
+  </head>
+
+  <body>
+
+    <%- include('includes/navigation.ejs') %>
+
+      <Section class="addbook">
+        <p class="addbook__title">Add your book here !</p>
+
+        <form action="/admin/add-book" class="addbook__form" method="POST">
+          <div class="addbook__entities">
+            <label for="title">Title :</label>
+            <input type="text" name="title" placeholder="Enter your book title" required />
+          </div>
+          <div class="addbook__entities">
+            <label for="image">Image :</label>
+            <input type="text" name="image" placeholder="Enter your book Cover" />
+          </div>
+          <div class="addbook__entities">
+            <label for="price">Price ($) :</label>
+            <input type="number" name="price" placeholder="Enter your book price" required />
+          </div>
+          <div class="addbook__entities">
+            <label for="author">Author :</label>
+            <input type="text" name="author" placeholder="Enter your book Author" required />
+          </div>
+          <button class="addbook__btn" type="submit">Add Book</button>
+        </form>
+      </Section>
+      <%- include('includes/end.ejs') %>

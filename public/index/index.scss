@@ -1,0 +1,107 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: "Roboto", sans-serif;
+}
+body {
+  box-sizing: border-box;
+}
+
+.booklist {
+  width: 100%;
+  &__title {
+    text-align: center;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    margin: 3rem 0rem;
+  }
+}
+
+.bookset {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.book {
+  margin: 2rem 2rem;
+  width: 20%;
+  background-color: #f5f3f4;
+  padding: 5px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  box-shadow: 0px 0px 12px -3px rgba(0, 0, 0, 0.77);
+  -webkit-box-shadow: 0px 0px 12px -3px rgba(0, 0, 0, 0.77);
+  -moz-box-shadow: 0px 0px 12px -3px rgba(0, 0, 0, 0.77);
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  &__img {
+    padding: 1rem;
+    img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin: 0 auto;
+      text-align: center;
+      width: 80%;
+    }
+  }
+
+  &__details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    span {
+      font-weight: 500;
+    }
+  }
+
+  &__price {
+    p {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__author {
+    p {
+      font-size: 1.5rem;
+      margin: 0.5rem 0rem;
+    }
+  }
+
+  &__btn {
+    border-radius: 5px;
+    background-color: #2b2d42;
+    color: white;
+    outline: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  &__btn:hover {
+    transform: scale(1.1);
+  }
+}
