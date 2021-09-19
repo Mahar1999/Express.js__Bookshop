@@ -1,0 +1,45 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/index/index.css" />
+    </head>
+
+    <body>
+
+        <%- include('../includes/navigation.ejs') %>
+
+            <section class="booklist">
+                <% if(books.length> 0){ %>
+                    <div class="booklist__title">List of books</div>
+                    <div class="bookset">
+
+                        <% for( let item of books){ %>
+                            <!-- book -->
+                            <div class="book">
+                                <div class="book__title">
+                                    <%= item.title %>
+                                </div>
+                                <div class="book__img">
+                                    <img src="<%= item.imageUrl %>" alt="<%= item.title %>" />
+                                </div>
+                                <div class="book__details">
+                                    <div class="book__price">
+                                        <p><span>Price</span> : $ <%= item.price %>
+                                        </p>
+                                    </div>
+                                    <div class="book__author">
+                                        <p><span>Author</span> : <%= item.author %>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="book__actions">
+                                    <%- include('../includes/add-to-cart.ejs' , {item:item}) %>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                <% }else{ %>
+                        <h1>No Books Found!</h1>
+                <% } %>
+            </section>
+
+            <%- include('../includes/end.ejs') %>

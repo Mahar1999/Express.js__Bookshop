@@ -1,10 +1,10 @@
-<%- include('includes/head.ejs') %>
+<%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/index/index.css" />
     </head>
 
     <body>
 
-        <%- include('includes/navigation.ejs') %>
+        <%- include('../includes/navigation.ejs') %>
 
             <section class="booklist">
                 <% if(books.length> 0){ %>
@@ -18,7 +18,7 @@
                                     <%= item.title %>
                                 </div>
                                 <div class="book__img">
-                                    <img src="/index/img/bookCover.jpg" alt="bookCover" />
+                                    <img src="<%= item.imageUrl %>" alt="<%= item.title %>" />
                                 </div>
                                 <div class="book__details">
                                     <div class="book__price">
@@ -30,7 +30,14 @@
                                         </p>
                                     </div>
                                 </div>
-                                <button class="book__btn">Add to cart</button>
+                                <div class="book__actions">
+                                    <a href="edit-book/<%= item.id %>?edit=true">Edit</a>
+                                    
+                                    <form action="/admin/delete-book" type="submit" method="POST">
+                                        <button class="book__btn">Delete</button>
+                                        <input type="hidden" name="bookId" value="<%= item.id %>">
+                                    </form>
+                                </div>  
                             </div>
                             <% } %>
 
@@ -39,4 +46,4 @@
                         <h1>No Books Found!</h1>
                         <% } %>
             </section>
-            <%- include('includes/end.ejs') %>
+            <%- include('../includes/end.ejs') %>

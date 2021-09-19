@@ -1,0 +1,23 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/index/index.css" />
+    </head>
+
+    <body>
+
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <% if( books.length > 0 ) { %>
+               <ul>
+                    <% books.forEach(item => { %>
+                        <p> <li><%= item.bookData.title %> ( <%= item.qty %> )</li> </p>
+                        <form action="/cart-delete-item" method="POST">
+                            <input type="hidden" name="bookId" value="<%= item.bookData.id %>">
+                            <button type="submit">Delete</button>
+                        </form>
+                    <% }) %>
+               </ul>
+            <% } else { %> 
+                <h1> No products Found in Cart !!! </h1>
+            <% } %>
+        </main>
+        <%- include('../includes/end.ejs') %>

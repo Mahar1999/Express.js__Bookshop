@@ -14,6 +14,8 @@ body {
   box-sizing: border-box;
 }
 
+// shop/book-list
+
 .booklist {
   width: 100%;
   &__title {
@@ -101,7 +103,35 @@ body {
     transition: all 0.3s;
   }
 
-  &__btn:hover {
-    transform: scale(1.1);
+  // &__btn:hover {
+  //   transform: scale(1.1);
+  //   padding: 0.5rem 1rem;
+  // }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    a {
+      display: inline;
+      text-decoration: none;
+      color: white;
+      background-color: #2b2d42;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1.25rem;
+      margin: 0.5rem;
+    }
+    a:hover {
+      transform: scale(1.1);
+    }
+    button {
+      margin: 0.5rem;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
   }
 }

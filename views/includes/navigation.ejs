@@ -1,17 +1,24 @@
 <nav class="nav">
   <div class="nav__left">
     <a class="<%= path === '/' ? 'active' : '' %>" href="/">Books</a>
-    <a
-      href="/admin/add-book"
-      class="<%= path === '/admin/add-book' ? 'active' : ''%>"
-      >Add Books</a
+
+    <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
+
+    <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders"
+      >Orders</a
     >
   </div>
   <div class="logo">
     <img src="/index/img/logo.png" alt="logo" />
   </div>
   <div class="nav__right">
-    <a href="#">Login</a>
-    <a href="#">Sign Up</a>
+    <a
+      href="/admin/add-book"
+      class="<%= path === '/admin/add-book' ? 'active' : ''%>"
+      >Add Books</a
+    >
+    <a href="/admin/books" class="<%= path === '/admin/books' ? 'active' : ''%>"
+      >Admin Books</a
+    >
   </div>
 </nav>
