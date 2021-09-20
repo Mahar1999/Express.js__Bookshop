@@ -1,18 +1,5 @@
-const fs = require("fs");
-const path = require("path");
 const Cart = require("../models/cart");
-
-// get to rootFolder of project -> data -> books.json
-const p = path.join(path.dirname(require.main.filename), "data", "books.json");
-
-const getBooksFromFile = (cb) => {
-  fs.readFile(p, (err, fileContent) => {
-    if (err) {
-      return cb([]);
-    }
-    cb(JSON.parse(fileContent));
-  });
-};
+const db = require("../util/database");
 
 module.exports = class Book {
   constructor(title, price, author, imageUrl, id) {
@@ -23,65 +10,23 @@ module.exports = class Book {
       (this.id = id);
   }
 
-  // Updating 1 : we pass an id parameter , which is going to have value if book exist or null if does not
-  // Updating 2 : If the book id exsist then we update the book or we create a new id for the new book
-  // Updating 3 : At last we save them in book.json
-
   save() {
-    getBooksFromFile((books) => {
-      if (this.id) {
-        console.log(" This id exisit ");
-        const exisitingBookIndex = books.findIndex(
-          (item) => item.id === this.id
-        );
-        const updatedBooks = [...books];
-        updatedBooks[exisitingBookIndex] = this;
-        fs.writeFile(p, JSON.stringify(updatedBooks), (err) =>
-          console.log(err)
-        );
-      } else {
-        this.id = Math.random().toString();
-        books.push(this);
-        fs.writeFile(p, JSON.stringify(books), (err) => console.log(err));
-      }
-    });
-
-    // fs.readFile(p, (err, fileContent) => {
-    //   let books = [];
-    //   if (!err) {
-    //     books = JSON.parse(fileContent);
-    //   }
-    //   books.push(this);
-    //   fs.writeFile(p, JSON.stringify(books), (err) => console.log(err));
-    // });
+    return db.execute(
+      "INSERT INTO node_bookshop.books (title,price,author,imageUrl) VALUES (?,?,?,?)",
+      [this.title, this.price, this.author, this.imageUrl]
+    );
   }
 
-  static deleteById(id) {
-    getBooksFromFile((books) => {
-      const book = books.find((item) => item.id === id);
-      const updatedBook = books.filter((item) => item.id !== id);
-      fs.writeFile(p, JSON.stringify(updatedBook), (err) => {
-        //Delete item from cart too
-        Cart.deleteBook(id, book.price);
-      });
-    });
-  }
+  static deleteById(id) {}
 
   static fetchAll(cb) {
-    // fs.readFile(p, (err, fileContent) => {
-    //   if (err) {
-    //     cb([]);
-    //   }
-    //   cb(JSON.parse(fileContent));
-    // });
-
-    getBooksFromFile(cb);
+    return db
+      .execute("SELECT * from node_bookshop.books")
+      .then()
+      .catch((err) => console.log(err));
   }
 
-  static findById(id, cb) {
-    getBooksFromFile((books) => {
-      const book = books.find((item) => item.id === id);
-      cb([book]);
-    });
+  static findById(id) {
+    return db.execute("SELECT * from node_bookshop.books Where books.id = ?", [id]);
   }
 };

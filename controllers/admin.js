@@ -2,13 +2,15 @@ const Book = require("../models/book");
 const Cart = require("../models/cart");
 
 exports.getBooks = (req, res, next) => {
-  Book.fetchAll((books) => {
-    res.render("admin/books", {
-      pageTitle: "Books",
-      path: "/admin/books",
-      books: books,
-    });
-  });
+  Book.fetchAll()
+    .then(([rows, filedData]) => {
+      res.render("admin/books", {
+        pageTitle: "Books",
+        path: "/admin/books",
+        books: rows,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getAddBook = (req, res, next) => {
@@ -26,8 +28,11 @@ exports.postAddBook = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
 
   const book = new Book(title, price, author, imageUrl);
-  book.save();
-  res.redirect("/");
+  
+  book
+    .save()
+    .then(() => res.redirect("/"))
+    .catch((err) => console.log(err));
 };
 
 exports.getEditBook = (req, res, next) => {
@@ -68,5 +73,5 @@ exports.postDeleteBook = (req, res, next) => {
   const bookId = req.body.bookId;
   console.log(bookId);
   Book.deleteById(bookId);
-  res.redirect('/')
+  res.redirect("/");
 };

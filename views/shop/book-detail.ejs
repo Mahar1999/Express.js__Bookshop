@@ -8,7 +8,7 @@
 
             <section class="booklist">
                 <% if(books.length> 0){ %>
-                    <div class="booklist__title">List of books</div>
+                    <div class="booklist__title"><%= books[0].title %></div>
                     <div class="bookset">
 
                         <% for( let item of books){ %>

@@ -3,27 +3,31 @@ const Cart = require("../models/cart");
 
 exports.getAllBooks = (req, res, next) => {
   // res.sendFile(path.join(__dirname, "../", "views", "index.html"));
-  Book.fetchAll((books) => {
-    console.log(books);
-    res.render("shop/book-list", {
-      pageTitle: "Home Page",
-      path: "/",
-      books: books,
-    });
-  });
+  Book.fetchAll()
+    .then(([rows, filedData]) => {
+      console.log(rows);
+      res.render("shop/book-list", {
+        pageTitle: "Home Page",
+        path: "/",
+        books: rows,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getBookDetail = (req, res, next) => {
   const bookId = req.params.bookId; // use name used in Router after colon
 
-  Book.findById(bookId, (book) => {
-    console.log(book);
-    res.render("shop/book-detail", {
-      pageTitle: "Book Detail",
-      path: "/",
-      books: book,
-    });
-  });
+  Book.findById(bookId)
+    .then(([rows]) => {
+      console.log(rows);
+      res.render("shop/book-detail", {
+        pageTitle: "Book Detail",
+        path: "/",
+        books: rows,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getCart = (req, res, next) => {
@@ -52,7 +56,7 @@ exports.postCartDeleteItem = (req, res, next) => {
 
   Book.findById(bookId, (book) => {
     Cart.deleteBook(bookId, book[0].price);
-    console.log(bookId , book[0].price);
+    console.log(bookId, book[0].price);
     res.redirect("/cart");
   });
 };
