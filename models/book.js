@@ -1,32 +1,30 @@
-const Cart = require("../models/cart");
-const db = require("../util/database");
+const { Sequelize, DataTypes } = require("sequelize");
 
-module.exports = class Book {
-  constructor(title, price, author, imageUrl, id) {
-    (this.title = title),
-      (this.price = price),
-      (this.author = author),
-      (this.imageUrl = imageUrl),
-      (this.id = id);
+const sequelize = require("../util/database");
+
+const Book = sequelize.define("book", {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  price: {
+    type: DataTypes.DOUBLE,
+    allowNull: false,
+  },
+  author: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  imageUrl: {
+    type: DataTypes.STRING,
+    allowNull: false,
   }
+});
 
-  save() {
-    return db.execute(
-      "INSERT INTO node_bookshop.books (title,price,author,imageUrl) VALUES (?,?,?,?)",
-      [this.title, this.price, this.author, this.imageUrl]
-    );
-  }
-
-  static deleteById(id) {}
-
-  static fetchAll(cb) {
-    return db
-      .execute("SELECT * from node_bookshop.books")
-      .then()
-      .catch((err) => console.log(err));
-  }
-
-  static findById(id) {
-    return db.execute("SELECT * from node_bookshop.books Where books.id = ?", [id]);
-  }
-};
+module.exports = Book;

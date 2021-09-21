@@ -2,12 +2,13 @@ const Book = require("../models/book");
 const Cart = require("../models/cart");
 
 exports.getBooks = (req, res, next) => {
-  Book.fetchAll()
-    .then(([rows, filedData]) => {
+  Book.findAll({ raw: true })
+    .then((books) => {
+      // console.log(books);
       res.render("admin/books", {
         pageTitle: "Books",
         path: "/admin/books",
-        books: rows,
+        books: books,
       });
     })
     .catch((err) => console.log(err));
@@ -27,11 +28,13 @@ exports.postAddBook = (req, res, next) => {
   const author = req.body.author;
   const imageUrl = req.body.imageUrl;
 
-  const book = new Book(title, price, author, imageUrl);
-  
-  book
-    .save()
-    .then(() => res.redirect("/"))
+  Book.create({
+    title: title,
+    price: price,
+    author: author,
+    imageUrl: imageUrl,
+  })
+    .then()
     .catch((err) => console.log(err));
 };
 
@@ -43,35 +46,67 @@ exports.getEditBook = (req, res, next) => {
     return res.redirect("/");
   }
 
-  Book.findById(bookId, (book) => {
-    if (!book) res.redirect("/");
-    // console.log(book[0], editMode, bookId);
-    res.render("admin/addBooks", {
-      pageTitle: "Edit Books",
-      path: "/admin/editBooks",
-      editing: editMode,
-      book: book[0],
-    });
-  });
+  Book.findByPk(bookId, { raw: true })
+    .then((book) => {
+      res.render("admin/addBooks", {
+        pageTitle: "Edit Books",
+        path: "/admin/editBooks",
+        editing: editMode,
+        book: book,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
-exports.postEditBooks = (req, res, next) => {
-  const title = req.body.title;
-  const price = req.body.price;
-  const author = req.body.author;
-  const imageUrl = req.body.imageUrl;
+exports.postEditBooks = async (req, res, next) => {
+  const updatedTitle = req.body.title;
+  const updatedPrice = req.body.price;
+  const updatedAuthor = req.body.author;
+  const updatedImageUrl = req.body.imageUrl;
   const bookId = req.body.bookId;
 
-  console.log(title, price, author, imageUrl, bookId);
+  /************** Herer the book.save() is not responding , need to debug ****************/
+  // Book.findByPk(bookId, { raw: true })
+  //   .then((book) => {
+  //     (book.title = updatedTitle),
+  //       (book.price = updatedPrice),
+  //       (book.author = updatedAuthor),
+  //       (book.imageUrl = updatedImageUrl);
 
-  const updatedBook = new Book(title, price, author, imageUrl, bookId);
-  updatedBook.save();
-  res.redirect("/");
+  //     console.log(book);
+  //     return book.save();
+  //   })
+  //   .then((res) => console.log("UPDATED PRODUCT"))
+  //   .catch((err) => console.log(err));
+  /************** Herer the book.save() is not responding , need to debug ****************/
+
+  try {
+    await Book.update(
+      {
+        title: updatedTitle,
+        price: updatedPrice,
+        imageUrl: updatedImageUrl,
+        author: updatedAuthor,
+      },
+      {
+        where: { id: bookId },
+      }
+    );
+
+    res.redirect("/admin/books");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-exports.postDeleteBook = (req, res, next) => {
+exports.postDeleteBook = async (req, res, next) => {
   const bookId = req.body.bookId;
-  console.log(bookId);
-  Book.deleteById(bookId);
-  res.redirect("/");
+
+  Book.findByPk(bookId)
+    .then((book) => book.destroy())
+    .then((res) => {
+      console.log("DELETED SUCCESSFULLY");
+      res.redirect("/admin/books");
+    })
+    .catch((err) => console.log(err));
 };

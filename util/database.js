@@ -1,15 +1,8 @@
-// get the client
-const mysql = require("mysql2");
+const {Sequelize} = require("sequelize");
 
-// Create the connection pool. The pool-specific settings are the defaults
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASS,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+const sequelize = new Sequelize("node_bookshop", "root", process.env.DB_PASS, {
+  dialect: "mysql",
+  host: "localhost",
 });
 
-module.exports = pool.promise();
+module.exports = sequelize;

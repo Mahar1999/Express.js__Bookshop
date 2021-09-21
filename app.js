@@ -11,7 +11,8 @@ const path = require("path");
 const homeRoutes = require("./routes/home");
 const adminRoutes = require("./routes/admin");
 const pageNotFoundRoutes = require("./controllers/error");
-const db = require("./util/database");
+const sequelize = require("./util/database");
+const book = require("./models/book");
 
 //setting the ejs-view engine
 app.set("view engine", "ejs");
@@ -25,9 +26,16 @@ app.use("/admin", adminRoutes);
 
 app.use(pageNotFoundRoutes.getPageNotFound);
 
-app.listen(port, () => {
-  console.log(`Server is running successfully on port : ${port}`);
-});
+sequelize
+  .sync()
+  .then((res) => {
+    app.listen(port, () => {
+      console.log(`Server is running successfully on port : ${port}`);
+    });
+  })
+  .catch((err) => console.log(err));
+
+  
 
 // res.send() -  is for sending simple text and custom HTML
 
