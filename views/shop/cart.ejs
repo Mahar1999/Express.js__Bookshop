@@ -1,5 +1,6 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/index/index.css" />
+    <link rel="stylesheet" href="/cart/cart.css" />
     </head>
 
     <body>
@@ -7,15 +8,21 @@
         <%- include('../includes/navigation.ejs') %>
         <main>
             <% if( books.length > 0 ) { %>
-               <ul>
+               <ul class="cart__item-list">
                     <% books.forEach(item => { %>
-                        <p> <li><%= item.bookData.title %> ( <%= item.qty %> )</li> </p>
-                        <form action="/cart-delete-item" method="POST">
-                            <input type="hidden" name="bookId" value="<%= item.bookData.id %>">
-                            <button type="submit">Delete</button>
-                        </form>
+                         <li class="cart__item">
+                             <h1><%= item.title %> </h1>
+                             <h1>Quantity : <%= item.cartItem.qty %></h1>
+                             <form action="/cart-delete-item" method="POST" class="btn__delete">
+                                <input type="hidden" name="bookId" value="<%= item.id %>">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </li> 
                     <% }) %>
                </ul>
+               <form action="/create-order" method="POST" class="btn__order">
+                    <button type="submit">Order Now !</button>
+                </form>
             <% } else { %> 
                 <h1> No products Found in Cart !!! </h1>
             <% } %>

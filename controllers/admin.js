@@ -2,7 +2,11 @@ const Book = require("../models/book");
 const Cart = require("../models/cart");
 
 exports.getBooks = (req, res, next) => {
-  Book.findAll({ raw: true })
+  // Book.findAll({ raw: true }) - for getting books for all users
+
+  // req.user.getBooks() - for getting books for a single user
+  req.user
+    .getBooks()
     .then((books) => {
       // console.log(books);
       res.render("admin/books", {
@@ -33,8 +37,12 @@ exports.postAddBook = (req, res, next) => {
     price: price,
     author: author,
     imageUrl: imageUrl,
+    userId: req.user.id,
   })
-    .then()
+    .then(() => {
+      console.log("Book Created !!!");
+      res.redirect("/admin/books");
+    })
     .catch((err) => console.log(err));
 };
 
@@ -46,8 +54,13 @@ exports.getEditBook = (req, res, next) => {
     return res.redirect("/");
   }
 
-  Book.findByPk(bookId, { raw: true })
-    .then((book) => {
+  // Book.findByPk(bookId, { raw: true }) - for all books searched by bookId
+
+  // For books used by user searched by bookId
+  req.user
+    .getBooks({ where: { id: bookId } })
+    .then((books) => {
+      const book = books[0];
       res.render("admin/addBooks", {
         pageTitle: "Edit Books",
         path: "/admin/editBooks",
@@ -104,9 +117,9 @@ exports.postDeleteBook = async (req, res, next) => {
 
   Book.findByPk(bookId)
     .then((book) => book.destroy())
-    .then((res) => {
+    .then(() => {
       console.log("DELETED SUCCESSFULLY");
-      res.redirect("/admin/books");
+      res.redirect("/");
     })
     .catch((err) => console.log(err));
 };

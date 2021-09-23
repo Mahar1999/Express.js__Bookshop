@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const path = require("path");
-
 const booksController = require("../controllers/home");
 
 // localhost:3000 => GET
@@ -28,5 +26,8 @@ router.get("/orders", booksController.getOrders);
 
 // localhost:3000/homepage => GET
 router.get("/homepage", booksController.getHomepage);
+
+// localhost:3000/create-order => POST
+router.post("/create-order", booksController.getCreateOrder);
 
 module.exports = router;
