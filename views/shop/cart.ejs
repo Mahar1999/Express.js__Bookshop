@@ -12,7 +12,7 @@
                     <% books.forEach(item => { %>
                          <li class="cart__item">
                              <h1><%= item.title %> </h1>
-                             <h1>Quantity : <%= item.cartItem.qty %></h1>
+                             <h1>Quantity : <%= item.cartItem.quantity %></h1>
                              <form action="/cart-delete-item" method="POST" class="btn__delete">
                                 <input type="hidden" name="bookId" value="<%= item.id %>">
                                 <button type="submit">Delete</button>

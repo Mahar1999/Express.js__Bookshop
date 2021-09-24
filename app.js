@@ -2,8 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-// This should be on the top so that all imported paths can get access to .env variables
-const dotenv = require("dotenv");
+const dotenv = require("dotenv"); // This should be on the top so that all imported paths can get access to .env variables
 dotenv.config();
 
 const sequelize = require("./util/database");
@@ -45,11 +44,11 @@ app.use(pageNotFoundRoutes.getPageNotFound);
 Book.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Book);
 
-User.hasOne(Cart);
-Cart.belongsTo(User);
+User.hasOne(Cart); // parent.hasOne(child)->parent(independent) is free , child depends on parent via foreign key
+Cart.belongsTo(User); //child.belongsTo(parent) ->foregin key in child(dependent) , and reference key in parent(independent)
 
-Cart.belongsToMany(Book, { through: CartItem }); // one cart can hold multiple products
-Book.belongsToMany(Cart, { through: CartItem }); // one book can be part of multiple carts
+Cart.belongsToMany(Book, { through: CartItem });
+Book.belongsToMany(Cart, { through: CartItem });
 
 Order.belongsTo(User);
 User.hasMany(Order);
