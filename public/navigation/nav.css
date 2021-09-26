@@ -33,9 +33,42 @@
   font-size: 1.5rem;
   letter-spacing: 1px;
   padding: 0.5rem 1rem;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .nav a:hover {
+  background-color: white;
+  color: #2b2d42;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.nav li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.nav button {
+  color: white;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  margin: 0;
+  padding: 0.5rem 1rem;
+}
+
+.nav button:hover {
   background-color: white;
   color: #2b2d42;
   padding: 0.5rem 1rem;

@@ -22,9 +22,35 @@
     font-size: 1.5rem;
     letter-spacing: 1px;
     padding: 0.5rem 1rem;
+    transition: all 0.3s;
   }
 
   a:hover {
+    background-color: white;
+    color: #2b2d42;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+  }
+
+  li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button {
+    color: white;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 1.5rem;
+
+    transition: all 0.3s;
+    margin: 0;
+    padding: 0.5rem 1rem;
+  }
+
+  button:hover {
     background-color: white;
     color: #2b2d42;
     padding: 0.5rem 1rem;

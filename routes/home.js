@@ -1,25 +1,26 @@
-const express = require("express");
-const router = express.Router();
+const express = require("express")
+const router = express.Router()
 
-const booksController = require("../controllers/home");
+const booksController = require("../controllers/home")
 
-router.get("/", booksController.getAllBooks);
+router.get("/", booksController.getAllBooks)
 
-//  ':' refers to the dynamic segement other routes such as 'book-detail/xyz' would not be accessbile if decalred after this route , so we need to define this dynamic segemnt at the end route
-router.get("/book-detail/:bookId", booksController.getBookDetail);
+//  ':'-refers to the dynamic segement other routes such as 'book-detail/xyz' would not be accessbile if decalred after this route , so we need to define this dynamic segemnt at the end route
 
-router.get("/cart", booksController.getCart);
+router.get("/book-detail/:bookId", booksController.getBookDetail)
 
-router.post("/cart", booksController.postCart);
+router.get("/cart", booksController.getCart)
 
-router.post("/cart-delete-item", booksController.postCartDeleteItem);
+router.post("/cart", booksController.postCart)
 
-router.get("/checkout", booksController.getCheckout);
+router.post("/cart-delete-item", booksController.postCartDeleteItem)
 
-router.get("/orders", booksController.getOrders);
+router.get("/checkout", booksController.getCheckout)
 
-router.post("/create-order", booksController.postOrder);
+router.get("/orders", booksController.getOrders)
 
-router.get("/homepage", booksController.getHomepage);
+router.post("/create-order", booksController.postOrder)
 
-module.exports = router;
+router.get("/homepage", booksController.getHomepage)
+
+module.exports = router
