@@ -31,7 +31,8 @@
           <% if(editing){ %>    
             <input type="hidden" name="bookId" value="<%= book.id %>">  
           <% } %>
-
+            
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <button class="addbook__btn" type="submit"><%= editing  ? 'Update Book' : 'Add Book' %></button>
         </form>
       </Section>

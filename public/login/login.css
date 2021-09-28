@@ -43,9 +43,19 @@ form button:hover {
 }
 
 .form__content {
+  width: 100%;
   color: white;
   font-size: 1.5rem;
   margin: 1rem 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .form__content input {
@@ -53,9 +63,11 @@ form button:hover {
   border-radius: 1rem;
   border: none;
   outline: none;
+  width: 50%;
 }
 
 .form__content label {
   margin: 1rem;
+  width: 30%;
 }
 /*# sourceMappingURL=login.css.map */

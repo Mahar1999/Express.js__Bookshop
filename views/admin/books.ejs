@@ -34,6 +34,7 @@
                                     <a href="edit-book/<%= item.id %>?edit=true">Edit</a>
                                     
                                     <form action="/admin/delete-book" type="submit" method="POST">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                         <button class="book__btn">Delete</button>
                                         <input type="hidden" name="bookId" value="<%= item.id %>">
                                     </form>

@@ -34,18 +34,25 @@ form {
 }
 
 .form__content {
+  width: 100%;
   color: white;
   font-size: 1.5rem;
   margin: 1rem 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   input {
     padding: 0.8rem 2rem;
     border-radius: 1rem;
     border: none;
     outline: none;
+    width: 50%;
   }
 
   label {
     margin: 1rem;
+    width: 30%;
   }
 }

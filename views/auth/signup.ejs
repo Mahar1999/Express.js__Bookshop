@@ -1,13 +1,14 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/index/index.css" />
-    <link rel="stylesheet" href="/login/login.css" />
+    <link rel="stylesheet" href="/signUp/signUp.css" />
     </head>
 
     <body>
 
         <%- include('../includes/navigation.ejs') %>
             <main>
-                <form action="/login" method="POST">
+
+                <form action="/signup" method="POST">
                     <div class="form__content">
                         <label for="email">E-mail : </label>
                         <input type="email" name="email" placeholder="Enter your email here..." required>
@@ -17,9 +18,17 @@
                         <label for="password">Password :</label>
                         <input type="password" name="password" placeholder="Enter your password here..." required>
                     </div>
-                    
+
+                    <div class="form__content">
+                        <label for="confirmPassword">Confirm Password :</label>
+                        <input type="confirmPassword" name="confirmPassword" placeholder="Confirm your password here..." required>
+                    </div>
+
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button>Login</button>
+                    <div class="btn">
+                        <button type="submit">Signup</button>
+                    </div>
+                   
                 </form>
             </main>
         <%- include('../includes/end.ejs') %>

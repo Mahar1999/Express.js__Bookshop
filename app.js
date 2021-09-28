@@ -2,9 +2,11 @@ const express = require("express")
 const app = express()
 const port = 3000
 
+const csrf = require("csurf")
 const path = require("path")
-const dotenv = require("dotenv") // This should be on the top so that all imported paths can get access to .env variables
+const dotenv = require("dotenv")
 dotenv.config()
+const bcrypt = require("bcryptjs")
 
 const session = require("express-session")
 const sequelize = require("./util/database")
@@ -22,12 +24,13 @@ const homeRoutes = require("./routes/home")
 const adminRoutes = require("./routes/admin")
 const pageNotFoundRoutes = require("./controllers/error")
 
-//setting the ejs-view engine
+const csrfProtection = csrf()
+
 app.set("view engine", "ejs")
 app.set("views", "views")
 
-app.use(express.urlencoded({ extended: true })) // expresss.parser
-app.use(express.static(path.join(__dirname, "public"))) // public static files
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static(path.join(__dirname, "public")))
 
 const sessionStore = new SequelizeStore({ db: sequelize })
 app.use(
@@ -39,9 +42,13 @@ app.use(
   })
 )
 
-// defining above all middleware , so that it is passed in all below middleware
+app.use(csrfProtection)
+
 app.use((req, res, next) => {
-  User.findByPk(1)
+  if (!req.session.user) {
+    return next()
+  }
+  User.findByPk(req.session.user.id)
     .then((user) => {
       req.user = user
       next()
@@ -49,10 +56,15 @@ app.use((req, res, next) => {
     .catch((err) => console.log(err))
 })
 
-app.use("/admin", adminRoutes)
-app.use("/", homeRoutes) // OR app.use(homeRoutes)
-app.use(authRoutes)
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn
+  res.locals.csrfToken = req.csrfToken()
+  next()
+})
 
+app.use("/admin", adminRoutes)
+app.use("/", homeRoutes)
+app.use(authRoutes)
 app.use(pageNotFoundRoutes.getPageNotFound)
 
 Book.belongsTo(User, { constraints: true, onDelete: "CASCADE" })
@@ -72,29 +84,26 @@ Order.belongsToMany(Book, { through: OrderItem })
 sequelize
   // .sync({ force: true })
   .sync()
-  .then((res) => {
-    return User.findByPk(1)
-  })
-  .then((user) => {
-    if (!user) {
-      User.create({ name: "Saket", email: "saketsingh1999@gmail.com" }) // created a temperory user entery
-    }
-    return user
-  })
-  .then((user) => {
-    // console.log(user);
-    return user.createCart() // created a temperory cart entry
-  })
+  // .then((res) => {
+  //   return User.findOne()
+  // })
+  // .then((user) => {
+  //   if (!user) {
+  //     return bcrypt.hash("saket", 12).then((hashPass) => {
+  //       return User.create({
+  //         email: "saketsingh1999@gmail.com",
+  //         password: hashPass,
+  //       })
+  //     })
+  //   }
+  //   return user
+  // })
+  // .then((user) => {
+  //   return user.createCart()
+  // })
   .then((cart) => {
     app.listen(port, () => {
       console.log(`Server is running successfully on port : ${port}`)
     })
   })
   .catch((err) => console.log(err))
-
-// res.send() -  is for sending simple text and custom HTML
-
-// res.sendFiles() -  is for sending static HTML pages
-// res.status(404).sendFile(path.join(__dirname, "views", "pageNotFound.html"));
-
-// res.render() -  is for sending Dynamic HTML pages

@@ -2,17 +2,13 @@ const Book = require("../models/book")
 const Cart = require("../models/cart")
 
 exports.getBooks = (req, res, next) => {
-  // Book.findAll({ raw: true }) - for getting books for all users
-  // req.user.getBooks() - for getting books for a single user
-  req.session.user
+  req.user
     .getBooks()
     .then((books) => {
-      // console.log(books);
       res.render("admin/books", {
         pageTitle: "Books",
         path: "/admin/books",
         books: books,
-        isAuthenticated:  req.session.isLoggedIn,
       })
     })
     .catch((err) => console.log(err))
@@ -23,7 +19,6 @@ exports.getAddBook = (req, res, next) => {
     pageTitle: "Add Books",
     path: "/admin/add-book",
     editing: false,
-    isAuthenticated:  req.session.isLoggedIn,
   })
 }
 
@@ -39,7 +34,6 @@ exports.postAddBook = (req, res, next) => {
     author: author,
     imageUrl: imageUrl,
     userId: req.user.id,
-    isAuthenticated:  req.session.isLoggedIn,
   })
     .then(() => {
       console.log("Book Created !!!")
@@ -57,9 +51,9 @@ exports.getEditBook = (req, res, next) => {
   }
 
   // Book.findByPk(bookId, { raw: true }) - for all books searched by bookId
-
   // For books used by user searched by bookId
-  req.session.user
+
+  req.user
     .getBooks({ where: { id: bookId } })
     .then((books) => {
       const book = books[0]
@@ -68,7 +62,6 @@ exports.getEditBook = (req, res, next) => {
         path: "/admin/editBooks",
         editing: editMode,
         book: book,
-        isAuthenticated:  req.session.isLoggedIn,
       })
     })
     .catch((err) => console.log(err))
@@ -81,7 +74,7 @@ exports.postEditBooks = async (req, res, next) => {
   const updatedImageUrl = req.body.imageUrl
   const bookId = req.body.bookId
 
-  /************** Herer the book.save() is not responding , need to debug ****************/
+  /************** Here the book.save() is not responding , need to debug ****************/
   // Book.findByPk(bookId, { raw: true })
   //   .then((book) => {
   //     (book.title = updatedTitle),

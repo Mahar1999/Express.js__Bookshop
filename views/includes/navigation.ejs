@@ -1,9 +1,11 @@
 <nav class="nav">
   <div class="nav__left">
-    <a class="<%= path === '/' ? 'active' : '' %>" href="/">Books</a>
     <% if(isAuthenticated) { %> 
+      <a class="<%= path === '/' ? 'active' : '' %>" href="/">Books</a>
       <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
       <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
+    <% }else{ %>
+        <a href="/login" class="<%= path === '/login' ? 'active' : ''%>">Login</a>
     <% } %>
   </div>
   <div class="logo">
@@ -13,9 +15,12 @@
     <% if(isAuthenticated) { %> 
       <a href="/admin/add-book" class="<%= path === '/admin/add-book' ? 'active' : ''%>">Add Books</a>
       <a href="/admin/books" class="<%= path === '/admin/books' ? 'active' : ''%>">Admin Books</a>  
-      <li><form action="/logout" method="POST"><button>Logout</button></form></li>
+      <li><form action="/logout" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit">Logout</button>
+      </form></li>
     <% }else{ %>
-      <a href="/login" class="<%= path === '/login' ? 'active' : ''%>">Login</a>
+      <a href="/signup" class="<%= path === '/signup' ? 'active' : ''%>">Signup</a>
     <% } %>
   </div>
 </nav>

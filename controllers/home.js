@@ -2,16 +2,24 @@ const Book = require("../models/book")
 const Cart = require("../models/cart")
 
 exports.getAllBooks = (req, res, next) => {
-  Book.findAll({ raw: true })
+  req.user
+    .getBooks()
     .then((books) => {
       res.render("shop/book-list", {
         pageTitle: "Home Page",
         path: "/",
         books: books,
-        isAuthenticated:  req.session.isLoggedIn,
       })
     })
     .catch((err) => console.log(err))
+
+  // Book.findAll({ raw: true }).then((books) => {
+  //       res.render("shop/book-list", {
+  //         pageTitle: "Home Page",
+  //         path: "/",
+  //         books: books,
+  //       })
+  // })
 }
 
 exports.getBookDetail = (req, res, next) => {
@@ -22,14 +30,13 @@ exports.getBookDetail = (req, res, next) => {
         pageTitle: "Book Detail",
         path: "/",
         books: [book],
-        isAuthenticated:  req.session.isLoggedIn,
       })
     })
     .catch((err) => console.log(err))
 }
 
 exports.getCart = (req, res, next) => {
-  req.session.user
+  req.user
     .getCart()
     .then((cart) => {
       return cart
@@ -39,7 +46,6 @@ exports.getCart = (req, res, next) => {
             path: "/cart",
             pageTitle: "Your Cart",
             books: books,
-            isAuthenticated:  req.session.isLoggedIn,
           })
         })
         .catch((err) => console.log(err))
@@ -49,9 +55,10 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
   const bookId = req.body.bookId
+  let fetchedCart
   let newQty = 1
 
-  req.session.user
+  req.user
     .getCart()
     .then((cart) => {
       fetchedCart = cart
@@ -67,6 +74,7 @@ exports.postCart = (req, res, next) => {
       if (book) {
         const oldQty = book.cartItem.quantity
         newQty = oldQty + 1
+        return book
       }
 
       return Book.findByPk(bookId)
@@ -83,28 +91,42 @@ exports.postCart = (req, res, next) => {
 exports.postCartDeleteItem = (req, res, next) => {
   const bookId = req.body.bookId
 
-  req.session.user
+  req.user
     .getCart()
     .then((cart) => {
       return cart.getBooks({ where: { id: bookId } })
     })
     .then((books) => {
       const book = books[0]
-      return books.cartItem.destroy()
+      return book.cartItem.destroy()
     })
-    .then((res) => {
+    .then((result) => {
       res.redirect("/cart")
     })
     .catch((err) => console.log(err))
-  Book.findById(bookId, (book) => {
+
+  Book.findByPk(bookId, (book) => {
     Cart.deleteBook(bookId, book[0].price)
     res.redirect("/cart")
   })
 }
 
+exports.getOrders = (req, res, next) => {
+  req.user
+    .getOrders({ include: ["books"] })
+    .then((orders) => {
+      res.render("shop/orders", {
+        pageTitle: "Orders",
+        path: "/orders",
+        orders: orders,
+      })
+    })
+    .catch((err) => console.log(err))
+}
+
 exports.postOrder = (req, res, next) => {
   let fetchedCart
-  req.session.user
+  req.user
     .getCart()
     .then((cart) => {
       fetchedCart = cart
@@ -136,7 +158,6 @@ exports.getCheckout = (req, res, next) => {
   res.render("shop/checkout", {
     pageTitle: "Checkout Page",
     path: "shop/checkout",
-    isAuthenticated:  req.session.isLoggedIn,
   })
 }
 
@@ -144,20 +165,5 @@ exports.getHomepage = (req, res, next) => {
   res.render("shop/homepage", {
     pageTitle: "Home Page",
     path: "shop/homepage",
-    isAuthenticated:  req.session.isLoggedIn,
   })
-}
-
-exports.getOrders = (req, res, next) => {
-  req.session.user
-    .getOrders({ include: ["books"] })
-    .then((orders) => {
-      res.render("shop/orders", {
-        pageTitle: "Orders",
-        path: "/orders",
-        orders: orders,
-        isAuthenticated:  req.session.isLoggedIn,
-      })
-    })
-    .catch((err) => console.log(err))
 }

@@ -8,7 +8,9 @@
         <%- include('../includes/navigation.ejs') %>
             <main>
                 <% if(orders.length <=0 ){ %>
-                    <h1> No Orders! Available !!! </h1>
+                    <div class="notFound">
+                        <p> No Orders Available !!! </p>
+                    </div>
                 <% }else{ %> 
                     <ul class="orders__list">
                         <% orders.forEach(order => { %> 
