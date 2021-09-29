@@ -3,6 +3,7 @@ const app = express()
 const port = 3000
 
 const csrf = require("csurf")
+const flash = require("connect-flash")
 const path = require("path")
 const dotenv = require("dotenv")
 dotenv.config()
@@ -43,6 +44,7 @@ app.use(
 )
 
 app.use(csrfProtection)
+app.use(flash()) // To be initalized after session is declared
 
 app.use((req, res, next) => {
   if (!req.session.user) {
