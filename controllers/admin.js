@@ -1,5 +1,6 @@
 const Book = require("../models/book")
 const Cart = require("../models/cart")
+const { validationResult } = require("express-validator/check")
 
 exports.getBooks = (req, res, next) => {
   req.user
@@ -28,6 +29,24 @@ exports.postAddBook = (req, res, next) => {
   const author = req.body.author
   const imageUrl = req.body.imageUrl
 
+  const errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render("admin/addBooks", {
+      pageTitle: "Add Books",
+      path: "/admin/editBooks",
+      editing: false,
+      book: {
+        title: title,
+        imageUrl: imageUrl,
+        price: price,
+        author: author,
+      },
+      errorMessage: errors.array()[0].msg,
+      validationError: errors.array(),
+    })
+  }
+
   Book.create({
     title: title,
     price: price,
@@ -37,7 +56,7 @@ exports.postAddBook = (req, res, next) => {
   })
     .then(() => {
       console.log("Book Created !!!")
-      res.redirect("/admin/books")
+      res.redirect("/")
     })
     .catch((err) => console.log(err))
 }
@@ -62,6 +81,7 @@ exports.getEditBook = (req, res, next) => {
         path: "/admin/editBooks",
         editing: editMode,
         book: book,
+        validationError: [],
       })
     })
     .catch((err) => console.log(err))
@@ -88,6 +108,25 @@ exports.postEditBooks = async (req, res, next) => {
   //   .then((res) => console.log("UPDATED PRODUCT"))
   //   .catch((err) => console.log(err));
   /************** Herer the book.save() is not responding , need to debug ****************/
+
+  const errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render("admin/addBooks", {
+      pageTitle: "Edit Books",
+      path: "/admin/editBooks",
+      editing: true,
+      book: {
+        title: title,
+        imageUrl: imageUrl,
+        price: price,
+        author: author,
+        bookId: bookId,
+      },
+      errorMessage: errors.array()[0].msg,
+      validationError: errors.array(),
+    })
+  }
 
   try {
     await Book.update(

@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs")
 const sgMail = require("@sendgrid/mail")
 const { Sequelize } = require("sequelize")
 const Op = Sequelize.Op
+const { validationResult } = require("express-validator/check")
 
 const User = require("../models/user")
 
@@ -13,6 +14,11 @@ exports.getLogin = (req, res, next) => {
     pageTitle: "Login Page",
     path: "/login",
     errorMessage: req.flash("error"),
+    oldInput: {
+      email: "",
+      password: "",
+    },
+    validationError: [],
   })
 }
 
@@ -20,10 +26,33 @@ exports.postLogin = (req, res, next) => {
   const email = req.body.email
   const password = req.body.password
 
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/login", {
+      pageTitle: "Login Page",
+      path: "/login",
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email: email,
+        password: password,
+      },
+      validationError: errors.array(),
+    })
+  }
+
   User.findOne({ where: { email: email } }).then((user) => {
     if (!user) {
-      req.flash("error", "Invalid email or password")
-      return res.redirect("/login")
+      // req.flash("error", "Invalid email or password")
+      return res.status(422).render("auth/login", {
+        pageTitle: "Login Page",
+        path: "/login",
+        errorMessage: "Invalid email or password",
+        oldInput: {
+          email: email,
+          password: password,
+        },
+        validationError: [],
+      })
     }
     bcrypt
       .compare(password, user.password)
@@ -57,13 +86,35 @@ exports.getSignUp = (req, res, next) => {
   res.render("auth/signup", {
     pageTitle: "Sign Up Form",
     path: "/signup",
+    errorMessage: req.flash("error"),
+    oldInput: {
+      email: " ",
+      password: "",
+      confirmPassword: "",
+    },
+    validationError: [],
   })
 }
 
 exports.postSignUp = (req, res, next) => {
   const email = req.body.email
   const password = req.body.password
-  const confirmPassword = req.body.confirmPassword
+  const errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    console.log(errors.array())
+    return res.status(422).render("auth/signup", {
+      pageTitle: "Sign Up Form",
+      path: "/signup",
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email: email,
+        password: password,
+        confirmPassword: req.body.confirmPassword,
+      },
+      validationError: errors.array(),
+    })
+  }
 
   //find user by the email
   User.findOne({ where: { email: email } })
@@ -80,8 +131,6 @@ exports.postSignUp = (req, res, next) => {
       res.redirect("/")
     })
     .catch((err) => console.log(err))
-
-  console.log(email, password, confirmPassword)
 }
 
 exports.getReset = (req, res, next) => {

@@ -13,19 +13,47 @@
         <form action="/admin/<%= editing  ? 'edit-book' : 'add-book' %>" class="addbook__form" method="POST">
           <div class="addbook__entities">
             <label for="title">Title :</label>
-            <input type="text" name="title" placeholder="Enter your book title" value="<% if(editing){ %><%= book.title %><% } %>" required />
+            <input 
+              class="<%= validationError.find(e=>e.param === 'title')  ? 'invalid' : '' %>"
+              type="text" 
+              name="title" 
+              placeholder="Enter your book title" 
+              value="<% if(editing){ %><%= book.title %><% } %>" 
+              required 
+            />
           </div>
           <div class="addbook__entities">
             <label for="imageUrl">Image :</label>
-            <input type="text" name="imageUrl" placeholder="Enter your book Cover" value="<% if(editing){ %><%= book.imageUrl %><% } %>" required  />
+            <input 
+            class="<%= validationError.find(e=>e.param === 'imageUrl')  ? 'invalid' : '' %>"
+            type="text" 
+            name="imageUrl" 
+            placeholder="Enter your book Cover" 
+            value="<% if(editing){ %><%= book.imageUrl %><% } %>" 
+            required  
+            />
           </div>
           <div class="addbook__entities">
             <label for="price">Price ($) :</label>
-            <input type="number" name="price" placeholder="Enter your book price" value="<% if(editing){ %><%= book.price %><% } %>" required  />
+            <input 
+              class="<%= validationError.find(e=>e.param === 'price')  ? 'invalid' : '' %>"
+              type="number" 
+              name="price" 
+              placeholder="Enter your book price" 
+              value="<% if(editing){ %><%= book.price %><% } %>" 
+              required  
+            />
           </div>
           <div class="addbook__entities">
             <label for="author">Author :</label>
-            <input type="text" name="author" placeholder="Enter your book Author" value="<% if(editing){ %><%= book.author %><% } %>" required  />
+            <input 
+              class="<%= validationError.find(e=>e.param === 'author')  ? 'invalid' : '' %>"
+              type="text" 
+              name="author" 
+              placeholder="Enter your book Author" 
+              value="<% if(editing){ %><%= book.author %><% } %>" 
+              required  
+            />
           </div>
 
           <% if(editing){ %>    

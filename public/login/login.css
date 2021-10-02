@@ -114,4 +114,9 @@ form button:hover {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
 }
+
+.invalid {
+  background-color: #ebbaba;
+  border: 1px solid #df6961;
+}
 /*# sourceMappingURL=login.css.map */

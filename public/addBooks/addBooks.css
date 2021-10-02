@@ -112,4 +112,9 @@ body {
   -webkit-box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.72);
   -moz-box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.72);
 }
+
+.invalid {
+  background-color: #ebbaba;
+  border: 1px solid #df6961;
+}
 /*# sourceMappingURL=addBooks.css.map */

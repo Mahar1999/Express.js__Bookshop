@@ -37,6 +37,19 @@ form {
   }
 }
 
+.error {
+  margin: 3rem auto;
+  color: #2b2d42;
+  background-color: #ebc7c7;
+  border: 1px solid #df6961;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+
+  width: 30%;
+  text-align: center;
+  font-size: 1.3rem;
+}
+
 .btn {
   width: 100%;
   margin: 0 auto;
@@ -57,4 +70,9 @@ form {
   button:hover {
     transform: scale(1.1);
   }
+}
+
+.invalid {
+  background-color: #ebbaba;
+  border: 1px solid #df6961;
 }
