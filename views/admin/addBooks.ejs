@@ -8,9 +8,12 @@
     <%- include('../includes/navigation.ejs') %>
 
       <Section class="addbook">
+        <% if(errorMessage.length > 0) { %>
+          <div class="error"><%= errorMessage %></div>
+        <% } %>
         <p class="addbook__title">Add your book here !</p>
-
-        <form action="/admin/<%= editing  ? 'edit-book' : 'add-book' %>" class="addbook__form" method="POST">
+     
+        <form action="/admin/<%= editing  ? 'edit-book' : 'add-book' %>" class="addbook__form" method="POST" enctype="multipart/form-data">
           <div class="addbook__entities">
             <label for="title">Title :</label>
             <input 
@@ -22,7 +25,7 @@
               required 
             />
           </div>
-          <div class="addbook__entities">
+          <!-- <div class="addbook__entities">
             <label for="imageUrl">Image :</label>
             <input 
             class="<%= validationError.find(e=>e.param === 'imageUrl')  ? 'invalid' : '' %>"
@@ -30,6 +33,15 @@
             name="imageUrl" 
             placeholder="Enter your book Cover" 
             value="<% if(editing){ %><%= book.imageUrl %><% } %>" 
+            required  
+            />
+          </div> -->
+          <div class="addbook__entities">
+            <label for="imageUrl">Image :</label>
+            <input 
+            type="file" 
+            name="image" 
+            placeholder="Enter your book Cover" 
             required  
             />
           </div>

@@ -22,6 +22,8 @@ router.get("/orders", isAuth, booksController.getOrders)
 
 router.post("/create-order", isAuth, booksController.postOrder)
 
+router.get("/orders/:orderId", isAuth, booksController.getInvoice)
+
 router.get("/homepage", isAuth, booksController.getHomepage)
 
 module.exports = router

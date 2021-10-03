@@ -15,7 +15,6 @@ router.post(
   isAuth,
   [
     body("title").isAlphanumeric().isLength({ min: 3 }).trim(),
-    body("imageUrl").isURL(),
     body("price").isFloat().trim(),
     body("author").isAlphanumeric().trim(),
   ],
@@ -30,7 +29,6 @@ router.post(
   "/edit-book",
   [
     body("title").isString().isLength({ min: 3 }).trim(),
-    body("imageUrl").isURL(),
     body("price").isFloat().trim(),
     body("author").isAlphanumeric().trim(),
   ],

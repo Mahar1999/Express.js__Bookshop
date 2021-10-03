@@ -1,5 +1,8 @@
 const Book = require("../models/book")
 const Cart = require("../models/cart")
+const fs = require("fs")
+const path = require("path")
+const { nextTick } = require("process")
 
 exports.getAllBooks = (req, res, next) => {
   req.user
@@ -152,6 +155,32 @@ exports.postOrder = (req, res, next) => {
     })
     .then((item) => res.redirect("/orders"))
     .catch((err) => console.log(err))
+}
+
+exports.getInvoice = (req, res, next) => {
+  const orderId = req.params.orderId
+  const invoiceName = "invoice-" + orderId + ".pdf"
+  const invoicePath = path.join("data", "invoices", invoiceName)
+
+  // fs.readFile(invoicePath, (error, data) => {
+  //   if (error) {
+  //     return res.send("There was an error getting your invoice")
+  //   }
+  //   res.setHeader("Content-Type", "application/pdf")
+  //   res.setHeader(
+  //     "Content-Disposition",
+  //     "attachment;filename='" + invoiceName + "'"
+  //   )
+  //   res.send(data)
+  // })
+
+  const file = fs.createReadStream(invoicePath)
+  res.setHeader("Content-Type", "application/pdf")
+  res.setHeader(
+    "Content-Disposition",
+    "attachment;filename='" + invoiceName + "'"
+  )
+  file.pipe(res)
 }
 
 exports.getCheckout = (req, res, next) => {

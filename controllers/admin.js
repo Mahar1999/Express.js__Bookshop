@@ -20,6 +20,8 @@ exports.getAddBook = (req, res, next) => {
     pageTitle: "Add Books",
     path: "/admin/add-book",
     editing: false,
+    errorMessage: [],
+    validationError: [],
   })
 }
 
@@ -27,9 +29,23 @@ exports.postAddBook = (req, res, next) => {
   const title = req.body.title
   const price = req.body.price
   const author = req.body.author
-  const imageUrl = req.body.imageUrl
-
+  const image = req.file
   const errors = validationResult(req)
+
+  if (!image) {
+    return res.status(422).render("admin/addBooks", {
+      pageTitle: "Add Books",
+      path: "/admin/editBooks",
+      editing: false,
+      book: {
+        title: title,
+        price: price,
+        author: author,
+      },
+      errorMessage: "Attacehd file is not an image",
+      validationError: [],
+    })
+  }
 
   if (!errors.isEmpty()) {
     return res.status(422).render("admin/addBooks", {
@@ -38,7 +54,6 @@ exports.postAddBook = (req, res, next) => {
       editing: false,
       book: {
         title: title,
-        imageUrl: imageUrl,
         price: price,
         author: author,
       },
@@ -46,6 +61,8 @@ exports.postAddBook = (req, res, next) => {
       validationError: errors.array(),
     })
   }
+
+  const imageUrl = image.path
 
   Book.create({
     title: title,
@@ -68,10 +85,8 @@ exports.getEditBook = (req, res, next) => {
   if (!editMode) {
     return res.redirect("/")
   }
-
   // Book.findByPk(bookId, { raw: true }) - for all books searched by bookId
   // For books used by user searched by bookId
-
   req.user
     .getBooks({ where: { id: bookId } })
     .then((books) => {
@@ -82,6 +97,7 @@ exports.getEditBook = (req, res, next) => {
         editing: editMode,
         book: book,
         validationError: [],
+        errorMessage: "",
       })
     })
     .catch((err) => console.log(err))
@@ -91,7 +107,7 @@ exports.postEditBooks = async (req, res, next) => {
   const updatedTitle = req.body.title
   const updatedPrice = req.body.price
   const updatedAuthor = req.body.author
-  const updatedImageUrl = req.body.imageUrl
+  const image = req.file
   const bookId = req.body.bookId
 
   /************** Here the book.save() is not responding , need to debug ****************/
@@ -118,7 +134,6 @@ exports.postEditBooks = async (req, res, next) => {
       editing: true,
       book: {
         title: title,
-        imageUrl: imageUrl,
         price: price,
         author: author,
         bookId: bookId,
@@ -133,7 +148,7 @@ exports.postEditBooks = async (req, res, next) => {
       {
         title: updatedTitle,
         price: updatedPrice,
-        imageUrl: updatedImageUrl,
+        imageUrl: image ? (imageUrl = image.path) : null,
         author: updatedAuthor,
       },
       {
