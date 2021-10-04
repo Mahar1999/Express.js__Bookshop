@@ -1,7 +1,11 @@
 const express = require("express")
 const app = express()
-const port = 3000
+const helmet = require("helmet")
+const compression = require("compression")
+const morgan = require("morgan")
+const fs = require("fs")
 
+const port = 3000
 const csrf = require("csurf")
 const flash = require("connect-flash")
 const path = require("path")
@@ -25,6 +29,15 @@ const authRoutes = require("./routes/auth")
 const homeRoutes = require("./routes/home")
 const adminRoutes = require("./routes/admin")
 const pageNotFoundRoutes = require("./controllers/error")
+
+app.use(helmet())
+app.use(compression())
+
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+)
+app.use(morgan("combined", { stream: accessLogStream }))
 
 const csrfProtection = csrf()
 
