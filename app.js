@@ -5,7 +5,7 @@ const compression = require("compression")
 const morgan = require("morgan")
 const fs = require("fs")
 
-const port = 3000
+const port = process.env.PORT || 3000
 const csrf = require("csurf")
 const flash = require("connect-flash")
 const path = require("path")
